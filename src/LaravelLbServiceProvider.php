@@ -14,7 +14,7 @@ class LaravelLbServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'../config/logicboxes.php' => config_path('logicboxes.php'),
+            __DIR__.'/../config/logicboxes.php' => config_path('logicboxes.php'),
         ]);
     }
 
