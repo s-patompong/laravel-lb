@@ -9,6 +9,7 @@ class LogicBoxes {
     private $apiKey = "";
     private $rootPath = "";
     private $format = "json";
+    private $variables = [];
 
 	public function __construct()
     {
@@ -30,19 +31,21 @@ class LogicBoxes {
     public function setUserId($userId = "")
     {
         $this->userId = $userId;
+        return $this;
     }
 
     public function getApiKey()
     {
-        return $this->userId;
+        return $this->apiKey;
     }
 
     public function setApiKey($apiKey = "")
     {
         $this->apiKey = $apiKey;
+        return $this;
     }
 
-    private function getCredentialQueryString()
+    public function getCredentialQueryString()
     {
     	return "auth-userid={$this->userId}&api-key={$this->apiKey}";
     }
@@ -67,8 +70,13 @@ class LogicBoxes {
         return $this->format;
     }
 
-    public function setFormat($format = "json")
+    public function setFormat($format)
     {
+        if(!in_array($format, ['json', 'xml']))
+        {
+            throw new InvalidFormatException('Logicboxes format can be only json or xml', 4);
+        }
+
     	$this->format = $format;
     }
 
@@ -80,17 +88,20 @@ class LogicBoxes {
 
     public function setVariables($variables)
     {
-    	$queryStringArray = [];
-    	foreach ($variables as $key => $value) {
-    		$queryStringArray[] = "${key}=${value}";
-    	}
-    	$this->queryString = implode("&", $queryStringArray);
+        $this->variables = $variables;
     	return $this;
+    }
+
+    public function getVariables()
+    {
+        return $this->variables;
     }
 
     public function call()
     {
-    	$endPoint = "{$this->rootPath}/{$this->resource}/{$this->method}.{$this->format}?{$this->credentialString}&{$this->queryString}";
+        $queryString = $this->getQueryString();
+
+    	$endPoint = "{$this->rootPath}/{$this->resource}/{$this->method}.{$this->format}?{$this->credentialString}&{$queryString}";
     	$this->response = file_get_contents($endPoint);
     	return $this;
     }
@@ -104,4 +115,14 @@ class LogicBoxes {
     {
     	return json_decode($this->response, true);
     }
+
+    public function getQueryString()
+    {
+        $queryStringArray = [];
+        foreach ($this->variables as $key => $value) {
+            $queryStringArray[] = "${key}=${value}";
+        }
+        return implode("&", $queryStringArray);
+    }
+
 }
