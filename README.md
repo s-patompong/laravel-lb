@@ -45,8 +45,7 @@ class ExampleTest extends TestCase
             "no-of-records" => 10,
             "page-no" => 3,
         ])->call();
-        dd($response);
-        $this->assertEquals(0,0); 
+        dd($response); // Show response
     }
 }
 
