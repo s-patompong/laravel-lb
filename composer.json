@@ -1,0 +1,12 @@
+{
+    "name": "pangpondpon/laravel-lb",
+    "description": "Library that let you connect your laravel application to Logicboxes with ease",
+    "authors": [
+        {
+            "name": "Patompong Savaengsuk",
+            "email": "pond@netearth.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
