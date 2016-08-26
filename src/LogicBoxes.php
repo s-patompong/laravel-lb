@@ -9,7 +9,7 @@ class LogicBoxes {
         $this->testMode = config('logicboxes.test_mode');
         $this->userId = config('logicboxes.auth_userid');
         $this->apiKey = config('logicboxes.api_key');
-        $this->rootPath = $this->generateRootPath($testMode);
+        $this->rootPath = $this->generateRootPath($this->testMode);
         $this->setFormat("json");
 
         $this->credentialString = $this->getCredentialQueryString();
