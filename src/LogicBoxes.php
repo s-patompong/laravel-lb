@@ -4,15 +4,42 @@ namespace LaravelLb;
 
 class LogicBoxes {
 
+    private $testMode = false;
+    private $userId = "";
+    private $apiKey = "";
+    private $rootPath = "";
+    private $format = "json";
+
 	public function __construct()
     {
-        $this->testMode = config('logicboxes.test_mode');
-        $this->userId = config('logicboxes.auth_userid');
-        $this->apiKey = config('logicboxes.api_key');
-        $this->rootPath = $this->generateRootPath($this->testMode);
-        $this->setFormat("json");
+        if(function_exists('config'))
+        {
+            $this->testMode = config('logicboxes.test_mode');
+            $this->userId = config('logicboxes.auth_userid');
+            $this->apiKey = config('logicboxes.api_key');
+            $this->rootPath = $this->generateRootPath($this->testMode);
+            $this->credentialString = $this->getCredentialQueryString();
+        }   
+    }
 
-        $this->credentialString = $this->getCredentialQueryString();
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    public function setUserId($userId = "")
+    {
+        $this->userId = $userId;
+    }
+
+    public function getApiKey()
+    {
+        return $this->userId;
+    }
+
+    public function setApiKey($apiKey = "")
+    {
+        $this->apiKey = $apiKey;
     }
 
     private function getCredentialQueryString()
@@ -33,6 +60,11 @@ class LogicBoxes {
     {
     	$this->resource = $resource;
     	return $this;
+    }
+
+    public function getFormat()
+    {
+        return $this->format;
     }
 
     public function setFormat($format = "json")
