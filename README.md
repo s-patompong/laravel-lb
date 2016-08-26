@@ -1,4 +1,6 @@
 # Laravel-lb
+[![Build Status](https://travis-ci.org/pangpondpon/laravel-lb.svg?branch=master)](https://travis-ci.org/pangpondpon/laravel-lb)
+
 This library let your laravel application talk with Logicboxes API with ease.
 
 
