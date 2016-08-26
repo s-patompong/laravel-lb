@@ -25,11 +25,6 @@ class LaravelLbServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('LaravelLb\LogicBoxes', function ($app) {
-            $testMode = config('logicboxes.test_mode');
-            $userId = config('logicboxes.auth_userid');
-            $apiKey = config('logicboxes.api_key');
-            return new LogicBoxes($userId, $apiKey, $testMode);
-        });
+        
     }
 }

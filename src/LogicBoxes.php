@@ -4,10 +4,11 @@ namespace LaravelLb;
 
 class LogicBoxes {
 
-	public function __construct($auth_userid, $api_key, $testMode = true)
+	public function __construct()
     {
-        $this->userId = $auth_userid;
-        $this->apiKey = $api_key;
+        $this->testMode = config('logicboxes.test_mode');
+        $this->userId = config('logicboxes.auth_userid');
+        $this->apiKey = config('logicboxes.api_key');
         $this->rootPath = $this->generateRootPath($testMode);
         $this->setFormat("json");
 
