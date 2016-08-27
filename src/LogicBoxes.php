@@ -22,12 +22,6 @@ class LogicBoxes {
             $this->userId = config('logicboxes.auth_userid');
             $this->apiKey = config('logicboxes.api_key');
         }   
-        else if(function_exists('getenv')) // For testing purpose
-        {
-            $this->testMode = getenv('LB_TEST_MODE');
-            $this->userId = getenv('LB_AUTH_USERID');
-            $this->apiKey = getenv('LB_API_KEY');
-        }   
     }
 
     public function getUserId()

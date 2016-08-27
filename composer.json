@@ -8,9 +8,7 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-        "vlucas/phpdotenv": "v2.3.0"
-    },
+    "require": {},
     "require-dev": {
         "phpunit/phpunit": "5.5.*"
     },

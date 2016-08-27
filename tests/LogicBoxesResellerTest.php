@@ -8,9 +8,6 @@ class LogicBoxesResellerTest extends TestCase
 	public function __construct()
 	{
 		$this->lb = new LogicBoxesReseller;
-
-		$dotenv = new Dotenv\Dotenv(__DIR__."/../");
-		$dotenv->load();
 	}
 
 	/**
