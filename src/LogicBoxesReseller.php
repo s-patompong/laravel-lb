@@ -24,8 +24,21 @@ class LogicBoxesReseller extends LogicBoxes {
             "passwd" => $password,
         ];
 
-        $this->get($this->resource, $method, $variables);
-        return $this;
+        $response = $this->get($this->resource, $method, $variables)->toArray();
+        if(!isset($response['resellerid'])) return false;
+        
+        return true;
+    }
+
+    /**
+     * Adds a Debit Note against the specified Sub-Reseller's Account.
+     * http://manage.netearthone.com/kb/answer/1167
+     *         
+     * @param [type] $params [description]
+     */
+    public function addDebitNote($variables)
+    {
+        // Todo: Add debit note method goes here
     }
 
 }
