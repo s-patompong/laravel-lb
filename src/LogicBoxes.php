@@ -2,14 +2,17 @@
 
 namespace LaravelLb;
 
+use LaravelLb\Exceptions\InvalidFormatException;
+use LaravelLb\Exceptions\InvalidRequestTypeException;
+
 class LogicBoxes {
 
-    private $testMode = false;
+    private $testMode = true;
     private $userId = "";
     private $apiKey = "";
-    private $rootPath = "";
     private $format = "json";
     private $variables = [];
+    private $requestType = "GET";
 
 	public function __construct()
     {
@@ -18,8 +21,12 @@ class LogicBoxes {
             $this->testMode = config('logicboxes.test_mode');
             $this->userId = config('logicboxes.auth_userid');
             $this->apiKey = config('logicboxes.api_key');
-            $this->rootPath = $this->generateRootPath($this->testMode);
-            $this->credentialString = $this->getCredentialQueryString();
+        }   
+        else if(function_exists('getenv')) // For testing purpose
+        {
+            $this->testMode = getenv('LB_TEST_MODE');
+            $this->userId = getenv('LB_AUTH_USERID');
+            $this->apiKey = getenv('LB_API_KEY');
         }   
     }
 
@@ -45,15 +52,42 @@ class LogicBoxes {
         return $this;
     }
 
+    public function getTestMode()
+    {
+        return $this->testMode;
+    }
+
+    public function setTestMode($isTestMode)
+    {
+        $this->testMode = $isTestMode;
+        return $this;
+    }
+
+    public function getRequestType()
+    {
+        return $this->requestType;
+    }
+
+    public function setRequestType($requestType)
+    {
+        if(!in_array($requestType, ['GET', 'POST']))
+        {
+            throw new InvalidRequestTypeException("Request type must be only GET or POST", 2);
+        }
+
+        $this->requestType = $requestType;
+        return $this;
+    }
+
     public function getCredentialQueryString()
     {
     	return "auth-userid={$this->userId}&api-key={$this->apiKey}";
     }
 
-    private function generateRootPath($testMode)
+    public function getRootPath()
     {
     	$path = "https://";
-    	if($testMode) $path .= "test.";
+    	if($this->testMode) $path .= "test.";
 
     	$path .= "httpapi.com/api";
     	return $path;
@@ -65,6 +99,11 @@ class LogicBoxes {
     	return $this;
     }
 
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
     public function getFormat()
     {
         return $this->format;
@@ -74,16 +113,22 @@ class LogicBoxes {
     {
         if(!in_array($format, ['json', 'xml']))
         {
-            throw new InvalidFormatException('Logicboxes format can be only json or xml', 4);
+            throw new InvalidFormatException('Logicboxes format can be only json or xml', 1);
         }
 
     	$this->format = $format;
+        return $this;
     }
 
     public function setMethod($method)
     {
     	$this->method = $method;
     	return $this;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
     }
 
     public function setVariables($variables)
@@ -99,11 +144,39 @@ class LogicBoxes {
 
     public function call()
     {
-        $queryString = $this->getQueryString();
+        switch($this->getRequestType())
+        {
+            case "GET":
+                return $this->get($this->resource, $this->method, $this->variables, $this->format);
+            case "POST":
+                return $this->post($this->resource, $this->method, $this->variables, $this->format);
+        }
+    }
 
-    	$endPoint = "{$this->rootPath}/{$this->resource}/{$this->method}.{$this->format}?{$this->credentialString}&{$queryString}";
-    	$this->response = file_get_contents($endPoint);
-    	return $this;
+    public function get($resource, $method, $variables, $format = "json")
+    {
+        $this->resource = $resource;
+        $this->method = $method;
+        $this->variables = $variables;
+        $this->format = $format;
+
+        $endPoint = $this->getEndPoint();
+        $this->response = file_get_contents($endPoint);
+        return $this;
+    }
+
+    public function post($resource, $method, $variables, $format = "json")
+    {
+        // TODO: Implement post method
+    }
+
+    public function getEndPoint()
+    {
+        $rootPath = $this->getRootPath();
+        $credentialString = $this->getCredentialQueryString();
+        $queryString = $this->getQueryString();
+        
+        return "{$rootPath}/{$this->resource}/{$this->method}.{$this->format}?{$credentialString}&{$queryString}";
     }
 
     public function getJson()
@@ -111,9 +184,19 @@ class LogicBoxes {
     	return json_decode($this->response);
     }
 
+    public function toJson()
+    {
+        return $this->getJson();
+    }
+
     public function getArray()
     {
     	return json_decode($this->response, true);
+    }
+
+    public function toArray()
+    {
+        return $this->getArray();
     }
 
     public function getQueryString()
