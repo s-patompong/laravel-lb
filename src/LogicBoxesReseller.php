@@ -12,6 +12,7 @@ class LogicBoxesReseller extends LogicBoxes {
         $this->resource = "resellers";
     }
 
+    // TODO: Think of another way to overide the method, PHP doesn't accept override the function
     public function get($method, $variables, $format = "json")
     {
     	return parent::get($this->resource, $method, $variables, $format);
