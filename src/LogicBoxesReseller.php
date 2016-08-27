@@ -56,7 +56,7 @@ class LogicBoxesReseller extends LogicBoxes {
 
     /**
      * Authenticate reseller
-     * @return Boolean login status
+     * @return Boolean
      */
     public function login()
     {
@@ -76,7 +76,7 @@ class LogicBoxesReseller extends LogicBoxes {
      * Adds a Debit Note against the specified Sub-Reseller's Account.
      * http://manage.netearthone.com/kb/answer/1167
      *         
-     * @param [type] $params [description]
+     * @param LogicBoxesReseller
      */
     public function addDebitNote($variables)
     {
@@ -94,13 +94,25 @@ class LogicBoxesReseller extends LogicBoxes {
      * Adds a Debit Note against the specified Sub-Reseller's Account.
      * http://manage.netearthone.com/kb/answer/1167
      *         
-     * @param Array 
+     * @param LogicBoxesReseller 
      */
     public function availableBalance()
     {
         $resource = "billing";
         $method = 'reseller-balance';
         $variables = ["reseller-id" => $this->resellerId];
+
+        $response = $this->get($resource, $method, $variables);
+        return $this;
+    }
+
+    public function searchTransaction($variables)
+    {
+        $resource = "billing/reseller-transactions";
+        $method = 'search';
+        $variables = array_merge([
+            "reseller-id" => $this->resellerId,
+        ], $variables);
 
         $response = $this->get($resource, $method, $variables);
         return $this;
