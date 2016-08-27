@@ -54,11 +54,16 @@ class LogicBoxesReseller extends LogicBoxes {
      * Adds a Debit Note against the specified Sub-Reseller's Account.
      * http://manage.netearthone.com/kb/answer/1167
      *         
-     * @param [type] $params [description]
+     * @param Array 
      */
     public function availableBalance()
     {
-        // Todo: Add debit note method goes here
+        $resource = "billing";
+        $method = 'reseller-balance';
+        $variables = ["reseller-id" => $this->resellerId];
+
+        $response = $this->get($resource, $method, $variables)->toArray();
+        return $this;
     }
 
 }
