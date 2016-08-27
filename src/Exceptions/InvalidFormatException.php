@@ -1,6 +1,7 @@
 <?php
 
-namespace LaravelLb;
+namespace LaravelLb\Exceptions;
+
 use Exception;
 /**
  * Define a custom exception class
