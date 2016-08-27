@@ -5,6 +5,9 @@ namespace LaravelLb;
 use LaravelLb\Exceptions\InvalidFormatException;
 use LaravelLb\Exceptions\InvalidRequestTypeException;
 
+use GuzzleHttp;
+use GuzzleHttp\Exception\RequestException;
+
 class LogicBoxes {
 
     private $testMode = true;
@@ -14,7 +17,7 @@ class LogicBoxes {
     private $variables = [];
     private $requestType = "GET";
 
-	public function __construct()
+    public function __construct()
     {
         if(function_exists('config'))
         {
@@ -110,7 +113,7 @@ class LogicBoxes {
             throw new InvalidFormatException('Logicboxes format can be only json or xml', 1);
         }
 
-    	$this->format = $format;
+        $this->format = $format;
         return $this;
     }
 
@@ -128,7 +131,7 @@ class LogicBoxes {
     public function setVariables($variables)
     {
         $this->variables = $variables;
-    	return $this;
+        return $this;
     }
 
     public function getVariables()
@@ -149,19 +152,35 @@ class LogicBoxes {
 
     public function get($resource, $method, $variables, $format = "json")
     {
+        $this->requestType = "GET";
+        return $this->fire($resource, $method, $variables, $format);
+    }
+
+    public function post($resource, $method, $variables, $format = "json")
+    {
+        $this->requestType = "POST";
+        return $this->fire($request, $method, $variables, $format);
+    }
+
+    private function fire($resource, $method, $variables, $format)
+    {
         $this->resource = $resource;
         $this->method = $method;
         $this->variables = $variables;
         $this->format = $format;
 
         $endPoint = $this->getEndPoint();
-        $this->response = file_get_contents($endPoint);
-        return $this;
-    }
 
-    public function post($resource, $method, $variables, $format = "json")
-    {
-        // TODO: Implement post method
+        $client = new GuzzleHttp\Client();
+
+        try {
+            $res = $client->request($this->getRequestType(), $endPoint);
+            $this->response = $res->getBody();
+        } catch (RequestException $e) {
+            $this->response = $e->getResponse()->getBody();
+        }
+        
+        return $this;
     }
 
     public function getEndPoint()

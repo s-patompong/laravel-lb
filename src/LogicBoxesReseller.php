@@ -12,10 +12,20 @@ class LogicBoxesReseller extends LogicBoxes {
         $this->resource = "resellers";
     }
 
-    // TODO: Think of another way to overide the method, PHP doesn't accept override the function
-    public function get($method, $variables, $format = "json")
+    /**
+     * Authenticate reseller
+     * @return Boolean login status
+     */
+    public function login($username, $password)
     {
-    	return parent::get($this->resource, $method, $variables, $format);
+        $method = 'authenticate';
+        $variables = [
+            "username" => $username,
+            "passwd" => $password,
+        ];
+
+        $this->get($this->resource, $method, $variables);
+        return $this;
     }
 
 }
