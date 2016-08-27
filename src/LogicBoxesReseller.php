@@ -8,17 +8,50 @@ class LogicBoxesReseller extends LogicBoxes {
 
 
     private $resellerId = "";
-    private $userName = "";
+    private $username = "";
     private $password = "";
 
-	public function __construct($resellerId, $userName = "", $password = "")
+	public function __construct($resellerId, $username = "", $password = "")
     {
         parent::__construct();
 
         $this->resource = "resellers";
         $this->resellerId = $resellerId;
-        $this->userName = $userName;
+        $this->username = $username;
         $this->password = $password;
+    }
+
+    public function getResellerId()
+    {
+        return $this->resellerId;
+    }
+
+    public function setResellerId($resellerId)
+    {
+        $this->resellerId = $resellerId;
+        return $this;
+    }  
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
     }
 
     /**
@@ -29,7 +62,7 @@ class LogicBoxesReseller extends LogicBoxes {
     {
         $method = 'authenticate';
         $variables = [
-            "username" => $this->userName,
+            "username" => $this->username,
             "passwd" => $this->password,
         ];
 

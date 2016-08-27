@@ -22,4 +22,40 @@ class LogicBoxesResellerTest extends TestCase
 		$this->assertEquals($lb->getResource(), $resource);
 	}
 
+	/**
+	 * @test
+	 */
+	public function it_should_be_able_to_set_username()
+	{
+		$username = "resellerUsername";
+
+		$this->lb->setUsername($username);
+
+		$this->assertEquals($this->lb->getUsername(), $username);
+	}
+
+	/**
+	 * @test
+	 */
+	public function it_should_be_able_to_set_reseller_id()
+	{
+		$resellerId = "resellerId";
+
+		$this->lb->setResellerId($resellerId);
+
+		$this->assertEquals($this->lb->getResellerId(), $resellerId);
+	}
+
+	/**
+	 * @test
+	 */
+	public function it_should_be_able_to_set_password()
+	{
+		$password = "password";
+
+		$this->lb->setPassword($password);
+
+		$this->assertEquals($this->lb->getPassword(), $password);
+	}
+
 }
