@@ -159,7 +159,7 @@ class LogicBoxes {
     public function post($resource, $method, $variables, $format = "json")
     {
         $this->requestType = "POST";
-        return $this->fire($request, $method, $variables, $format);
+        return $this->fire($resource, $method, $variables, $format);
     }
 
     private function fire($resource, $method, $variables, $format)

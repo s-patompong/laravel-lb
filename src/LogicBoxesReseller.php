@@ -47,7 +47,14 @@ class LogicBoxesReseller extends LogicBoxes {
      */
     public function addDebitNote($variables)
     {
-        // Todo: Add debit note method goes here
+        $resource = "billing";
+        $method = 'add-reseller-debit-note';
+        $variables = array_merge([
+            "reseller-id" => $this->resellerId,
+        ], $variables);
+
+        $response = $this->post($resource, $method, $variables);
+        return $this;
     }
 
     /**
@@ -62,7 +69,7 @@ class LogicBoxesReseller extends LogicBoxes {
         $method = 'reseller-balance';
         $variables = ["reseller-id" => $this->resellerId];
 
-        $response = $this->get($resource, $method, $variables)->toArray();
+        $response = $this->get($resource, $method, $variables);
         return $this;
     }
 
