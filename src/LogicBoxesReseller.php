@@ -30,7 +30,7 @@ class LogicBoxesReseller extends LogicBoxes {
     {
         $this->resellerId = $resellerId;
         return $this;
-    }  
+    }
 
     public function getUsername()
     {
@@ -68,14 +68,14 @@ class LogicBoxesReseller extends LogicBoxes {
 
         $response = $this->get($this->resource, $method, $variables)->toArray();
         if(!isset($response['resellerid'])) return false;
-        
+
         return true;
     }
 
     /**
      * Adds a Debit Note against the specified Sub-Reseller's Account.
      * http://manage.netearthone.com/kb/answer/1167
-     *         
+     *
      * @param LogicBoxesReseller
      */
     public function addDebitNote($variables)
@@ -93,8 +93,8 @@ class LogicBoxesReseller extends LogicBoxes {
     /**
      * Adds a Debit Note against the specified Sub-Reseller's Account.
      * http://manage.netearthone.com/kb/answer/1167
-     *         
-     * @param LogicBoxesReseller 
+     *
+     * @param LogicBoxesReseller
      */
     public function availableBalance()
     {
@@ -106,6 +106,11 @@ class LogicBoxesReseller extends LogicBoxes {
         return $this;
     }
 
+    /**
+     * Search for reseller transaction
+     * @param  Array $variables
+     * @return LogicBoxesReseller
+     */
     public function searchTransaction($variables)
     {
         $resource = "billing/reseller-transactions";
@@ -115,6 +120,25 @@ class LogicBoxesReseller extends LogicBoxes {
         ], $variables);
 
         $response = $this->get($resource, $method, $variables);
+        return $this;
+    }
+
+    /**
+     * Adds a Debit Note against the specified Sub-Reseller's Account.
+     * http://manage.netearthone.com/kb/answer/1167
+     *
+     * @param LogicBoxesReseller
+     */
+    public function addGreedyDebitNote($variables)
+    {
+        $resource = "billing";
+        $method = 'add-reseller-debit-note';
+        $variables = array_merge([
+            "reseller-id" => $this->resellerId,
+            "greedy" => "true",
+        ], $variables);
+
+        $response = $this->post($resource, $method, $variables);
         return $this;
     }
 
