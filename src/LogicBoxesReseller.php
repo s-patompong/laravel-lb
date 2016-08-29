@@ -142,4 +142,21 @@ class LogicBoxesReseller extends LogicBoxes {
         return $this;
     }
 
+    /**
+     * Adds a Debit Note against the specified Sub-Reseller's Account.
+     * http://manage.netearthone.com/kb/answer/1167
+     *
+     * @param LogicBoxesReseller
+     */
+    public function details()
+    {
+        $method = 'details';
+        $variables = [
+            "reseller-id" => $this->resellerId
+        ];
+
+        $response = $this->get($this->resource, $method, $variables);
+        return $this;
+    }
+
 }
