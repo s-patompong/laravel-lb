@@ -23,32 +23,8 @@ return [
 ```
 
 
-### Example from test case
-```php
-<?php
+### Examples
+* See examples from examples/ folder.
+* Copy .env.example to .env
+* Change the data in .env according to your data
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use LaravelLb\Logicboxes;
-
-class ExampleTest extends TestCase
-{
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
-    public function testBasicExample()
-    {  
-        $lb = new Logicboxes;
-        $response = $lb->setResource('resellers')->setMethod('search')->setVariables([
-            "no-of-records" => 10,
-            "page-no" => 3,
-        ])->call();
-        dd($response); // Show response
-    }
-}
-
-```
