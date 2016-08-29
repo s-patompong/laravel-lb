@@ -13,7 +13,7 @@ $resellerId = getenv('RESELLER_ID');
 $resellerUserName = getenv('RESELLER_USERNAME');
 $resellerPassword = getenv('RESELLER_PASSWORD');
 $variables = [
-	"selling-amount" => 0.5,
+	"selling-amount" => 0.15,
 	"description" => "Test add debit note",
 	"debit-note-date" => time(),
 	"transaction-key" => generateRandomString(15),
@@ -25,5 +25,5 @@ $reseller = new LogicBoxesReseller($resellerId, $resellerUserName, $resellerPass
 /** No need to set user id if you're using Laravel, it will automatically get the credential from config/logicboxes.php */
 $reseller->setUserId($userId)->setApiKey($apiKey);
 
-$response = $reseller->addDebitNote($variables)->toArray();
+$response = $reseller->addGreedyDebitNote($variables)->toArray();
 print_r($response);
