@@ -23,9 +23,31 @@ class LogicBoxesComodo extends LogicBoxes {
         $this->resource = "sslcert";
     }
 
+    /**
+     * Add the ssl
+     * @param Array $variables Variables to send to LB API
+     * http://manage.logicboxes.com/kb/answer/2396
+     */
     public function add($variables)
     {
         $method = "add";
+        $this->post($this->resource, $method, $variables);
+        return $this;
+    }
+
+    /**
+     * Search ssl order according to the criteria
+     * @param  Array $variables Search criteria
+     * http://manage.logicboxes.com/kb/answer/2401
+     */
+    public function search($noOfRecord, $pageNo, $variables = [])
+    {
+        $method = "search";
+        $variables = array_merge([
+            "no-of-records" => $noOfRecord,
+            "page-no" => $pageNo,
+        ], $variables);
+
         $this->post($this->resource, $method, $variables);
         return $this;
     }
