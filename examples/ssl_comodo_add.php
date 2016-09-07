@@ -22,7 +22,7 @@ $response = $comodo->add([
 	"months" => $months,
 	"customer-id" => $customerId,
 	"plan-id" => LogicBoxesComodo::POSITIVE_SSL,
-	"invoice-option" => LogicBoxesComodo::PAY_INVOICE,
+	"invoice-option" => LogicBoxesComodo::NO_INVOICE,
 ])->toArray();
 
 print_r($response);
