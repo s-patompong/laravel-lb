@@ -52,4 +52,38 @@ class LogicBoxesComodo extends LogicBoxes {
         return $this;
     }
 
+    /**
+     * Enroll the certificate for the specified order id.
+     * http://manage.logicboxes.com/kb/answer/2397
+     */
+    public function enroll($orderId, $csr)
+    {
+        $method = "search";
+        $variables = array_merge([
+            "no-of-records" => $noOfRecord,
+            "page-no" => $pageNo,
+        ], $variables);
+
+        $this->post($this->resource, $method, $variables);
+        return $this;
+    }
+
+    /**
+     * Gets details of the specified SSL Certificate order
+     * Order ID in this place is the entityid that returned when order the cert
+     * @param  String $orderId entity id of the cert
+     * @return LogicboxesComodo
+     * http://manage.logicboxes.com/kb/answer/2403
+     */
+    public function getDetail($orderId)
+    {
+        $method = "details";
+        $variables = [
+            "order-id" => $orderId,
+        ];
+
+        $this->get($this->resource, $method, $variables);
+        return $this;
+    }
+
 }
