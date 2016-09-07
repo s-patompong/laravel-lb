@@ -150,19 +150,19 @@ class LogicBoxes {
         }
     }
 
-    public function get($resource, $method, $variables, $format = "json")
+    public function get($resource, $method, $variables = [], $format = "json")
     {
         $this->requestType = "GET";
         return $this->fire($resource, $method, $variables, $format);
     }
 
-    public function post($resource, $method, $variables, $format = "json")
+    public function post($resource, $method, $variables = [], $format = "json")
     {
         $this->requestType = "POST";
         return $this->fire($resource, $method, $variables, $format);
     }
 
-    private function fire($resource, $method, $variables, $format)
+    private function fire($resource, $method, $variables = [], $format)
     {
         $this->resource = $resource;
         $this->method = $method;
