@@ -9,7 +9,7 @@ $userId = getenv('LB_AUTH_USERID');
 $apiKey = getenv('LB_API_KEY');
 
 // Setup reseller username and password
-$resellerId = getenv('RESELLER_ID');;
+$resellerId = getenv('RESELLER_ID');
 
 $reseller = new LogicBoxesReseller($resellerId);
 
