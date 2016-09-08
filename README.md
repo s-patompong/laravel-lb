@@ -52,9 +52,9 @@ class ComodoCertController extends Controller
         $response = $this->comodo->add([
           "domain-name" => "ssldemosite.com",
           "months" => 12,
-          "customer-id" => ""52213365,
-          "plan-id" => LogicBoxesComodo::POSITIVE_SSL,
-          "invoice-option" => LogicBoxesComodo::NO_INVOICE
+          "customer-id" => "52213365",
+          "plan-id" => LogicBoxesComodo::POSITIVE_SSL, // Check more options in LogicBoxesComodo
+          "invoice-option" => LogicBoxesComodo::NO_INVOICE // Check more options in LogicBoxesComodo
     	])->toArray();
         
         return $response;
