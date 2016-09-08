@@ -12,6 +12,8 @@ class LogicBoxesCustomer extends LogicBoxes {
 
     public function __construct()
     {
+        parent::__construct();
+        
     	$this->resource = "customers";
     }
 
