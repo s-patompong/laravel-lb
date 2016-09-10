@@ -207,4 +207,22 @@ class LogicBoxesComodo extends LogicBoxes {
         return $this;
     }
 
+    /**
+     * Get the list of verification email
+     * @param  String $domain domain name
+     * @return Array         List of verification email
+     * https://support.comodo.com/index.php?/Knowledgebase/Article/View/791
+     */
+    public function getVerificationEmails($domain)
+    {
+        $templateEmails = ["admin@", "administrator@", "postmaster@", "hostmaster@", "webmaster@"];
+
+        $verificationEmails = [];
+        foreach ($templateEmails as $template) {
+          $verificationEmails[] = $template.$domain;
+        }
+
+        return $verificationEmails;
+    }
+
 }
