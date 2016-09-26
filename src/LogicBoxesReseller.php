@@ -67,9 +67,7 @@ class LogicBoxesReseller extends LogicBoxes {
         ];
 
         $response = $this->get($this->resource, $method, $variables)->toArray();
-        if(!isset($response['resellerid'])) return false;
-
-        return true;
+        return isset($response['resellerid']) ? $response['resellerid'] : null;
     }
 
     /**

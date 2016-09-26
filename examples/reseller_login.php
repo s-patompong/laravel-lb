@@ -18,9 +18,10 @@ $reseller = new LogicBoxesReseller($resellerId, $resellerUserName, $resellerPass
 /** No need to set user id if you're using Laravel, it will automatically get the credential from config/logicboxes.php */
 $reseller->setUserId($userId)->setApiKey($apiKey);
 
-if($reseller->login())
+if($responseResellerId = $reseller->login())
 {
 	echo "Login success\n";
+	echo "Reseller ID :".$responseResellerId;
 }
 else
 {
