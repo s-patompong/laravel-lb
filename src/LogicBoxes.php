@@ -54,9 +54,9 @@ class LogicBoxes {
         return $this->testMode;
     }
 
-    public function setTestMode($isTestMode)
+    public function setTestMode($testMode)
     {
-        $this->testMode = $isTestMode;
+        $this->testMode = $testMode;
         return $this;
     }
 
@@ -170,6 +170,8 @@ class LogicBoxes {
         $this->format = $format;
 
         $endPoint = $this->getEndPoint();
+
+        echo $endPoint."\n";
 
         $client = new GuzzleHttp\Client();
 
