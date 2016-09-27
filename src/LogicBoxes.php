@@ -171,8 +171,6 @@ class LogicBoxes {
 
         $endPoint = $this->getEndPoint();
 
-        echo $endPoint."\n";
-
         $client = new GuzzleHttp\Client();
 
         try {
