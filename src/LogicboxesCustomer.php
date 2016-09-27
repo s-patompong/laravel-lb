@@ -29,4 +29,17 @@ class LogicBoxesCustomer extends LogicBoxes {
     	return $this;
     }
     
+    /**
+     * Sign up the new customer
+     * @return LogicBoxesCustomer
+     * http://manage.netearthone.com/kb/answer/967
+     */
+    public function details($customerId)
+    {
+        $method = "details-by-id";
+        $this->get($this->resource, $method, [
+            'customer-id' => $customerId
+        ]);
+        return $this;
+    }
 }
