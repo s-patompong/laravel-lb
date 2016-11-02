@@ -63,10 +63,10 @@ class LogicBoxesReseller extends LogicBoxes {
         $method = 'authenticate';
         $variables = [
             "username" => $this->username,
-            "passwd" => $this->password,
+            "passwd" => urlencode($this->password),
         ];
 
-        $response = $this->get($this->resource, $method, $variables)->toArray();
+        $response = $this->get($this->resource, $method, $variables)->toArray();        
         return isset($response['resellerid']) ? $response['resellerid'] : null;
     }
 
