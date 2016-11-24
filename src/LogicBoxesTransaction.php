@@ -110,7 +110,7 @@ class LogicBoxesTransaction extends LogicBoxes {
         $pageNo = 1;
 
         $variables = [
-            'transaction-date-start' => $from->timestamp,
+            'transaction-date-start' => $from->setTime('0', '0', '0')->timestamp,
             'transaction-date-end' => $to->setTime('23', '59', '59')->timestamp,
             'no-of-records' => $noOfRecord,
             'page-no' => $pageNo,
