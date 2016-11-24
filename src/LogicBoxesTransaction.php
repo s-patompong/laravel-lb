@@ -116,7 +116,7 @@ class LogicBoxesTransaction extends LogicBoxes {
             'page-no' => $pageNo,
         ];
 
-        $transactions = $this->get($this->resellerResource, $method, $variables)->toArray();
+        $transactions = $this->get($resource, $method, $variables)->toArray();
 
         $response = [];
 
@@ -130,7 +130,7 @@ class LogicBoxesTransaction extends LogicBoxes {
             {
                 $variables['page-no'] = $page;
 
-                $transactions = $this->get($this->resellerResource, $method, $variables)->toArray();
+                $transactions = $this->get($resource, $method, $variables)->toArray();
 
                 $response = array_merge($response, $this->getOnlyTransactionFromResponse($transactions));
             }
