@@ -15,8 +15,8 @@ $transaction = new LogicBoxesTransaction();
 /** No need to set user id if you're using Laravel, it will automatically get the credential from config/logicboxes.php */
 $transaction->setUserId($userId)->setApiKey($apiKey);
 
-$from = Carbon::parse('01/01/2016');
-$to = Carbon::parse('01/31/2016');
+$from = Carbon::parse('2016-01-01');
+$to = Carbon::parse('2016-05-29');
 
-$response = $transaction->getResellerTransactions($from, $to)->toArray();
+$response = $transaction->getResellerTransactions($from, $to);
 print_r($response);

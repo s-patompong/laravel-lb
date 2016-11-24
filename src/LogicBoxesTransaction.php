@@ -30,7 +30,13 @@ class LogicBoxesTransaction extends LogicBoxes {
      */
 	public $customerResource;
 
-    public function __construct()
+    /**
+     * No. of record that will be fetched per api call
+     * @var Integer
+     */
+    public $noOfRecord;
+
+    public function __construct($noOfRecord = null)
     {
         parent::__construct();
 
@@ -41,6 +47,8 @@ class LogicBoxesTransaction extends LogicBoxes {
         $this->resellerResource = "{$this->baseResource}/reseller-transactions";
 
     	$this->customerResource = "{$this->baseResource}/customer-transactions";
+
+        $this->noOfRecord = $this->getNoOfRecord($noOfRecord);
     }
 
     /**
@@ -51,20 +59,7 @@ class LogicBoxesTransaction extends LogicBoxes {
      */
     public function getParentTransactions($from, $to)
     {
-    	$method = 'search';
-        $noOfRecord = 100;
-        $pageNo = 1;
-
-        $variables = [
-            'transaction-date-start' => $from->timestamp,
-            'transaction-date-end' => $to->setTime('23', '59', '59')->timestamp,
-            'no-of-records' => $noOfRecord,
-            'page-no' => $pageNo,
-        ];
-
-        $response = $this->get($this->parentResource, $method, $variables);
-
-        return $this;
+        return $this->getTransactions($this->parentResource, $from, $to);
     }
 
     /**
@@ -75,20 +70,7 @@ class LogicBoxesTransaction extends LogicBoxes {
      */
     public function getResellerTransactions($from, $to)
     {
-        $method = 'search';
-        $noOfRecord = 100;
-        $pageNo = 1;
-
-        $variables = [
-            'transaction-date-start' => $from->timestamp,
-            'transaction-date-end' => $to->setTime('23', '59', '59')->timestamp,
-            'no-of-records' => $noOfRecord,
-            'page-no' => $pageNo,
-        ];
-
-        $response = $this->get($this->resellerResource, $method, $variables);
-
-        return $this;
+        return $this->getTransactions($this->resellerResource, $from, $to);
     }
 
     /**
@@ -99,8 +81,32 @@ class LogicBoxesTransaction extends LogicBoxes {
      */
     public function getCustomerTransactions($from, $to)
     {
+        return $this->getTransactions($this->customerResource, $from, $to);
+    }
+
+    /**
+     * Get only the transaction from transaction response
+     * @param  Array $transactions array of transaction response
+     * @return Array               
+     */
+    private function getOnlyTransactionFromResponse($transactions)
+    {
+        unset($transactions['recsonpage'], $transactions['recsindb']);
+
+        return array_values($transactions);
+    }
+
+    /**
+     * Get transactions
+     * @param  String $resource resource
+     * @param  Carbon $from     Get transaction from
+     * @param  Carbon $to       Get transaction to
+     * @return Array
+     */
+    private function getTransactions($resource, $from, $to)
+    {
         $method = 'search';
-        $noOfRecord = 100;
+        $noOfRecord = $this->noOfRecord;
         $pageNo = 1;
 
         $variables = [
@@ -110,9 +116,47 @@ class LogicBoxesTransaction extends LogicBoxes {
             'page-no' => $pageNo,
         ];
 
-        $response = $this->get($this->customerResource, $method, $variables);
+        $transactions = $this->get($this->resellerResource, $method, $variables)->toArray();
 
-        return $this;
+        $response = [];
+
+        $response = array_merge($response, $this->getOnlyTransactionFromResponse($transactions));
+
+        if($transactions['recsindb'] > $transactions['recsonpage'])
+        {
+            $pages = ceil($transactions['recsindb'] / $transactions['recsonpage']);
+
+            for($page = 2; $page <= $pages; $page++)
+            {
+                $variables['page-no'] = $page;
+
+                $transactions = $this->get($this->resellerResource, $method, $variables)->toArray();
+
+                $response = array_merge($response, $this->getOnlyTransactionFromResponse($transactions));
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get number of record
+     * @param  Integer or null $noOfRecord no of record
+     * @return Integer
+     */
+    private function getNoOfRecord($noOfRecord)
+    {
+        if($noOfRecord)
+        {
+            return $noOfRecord;
+        }
+
+        if(function_exists('config'))
+        {
+            return config('logicboxes.no_of_record');
+        }
+
+        return 100;
     }
     
 }

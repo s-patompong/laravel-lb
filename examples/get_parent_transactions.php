@@ -18,5 +18,5 @@ $transaction->setUserId($userId)->setApiKey($apiKey);
 $from = Carbon::parse('01/01/2016');
 $to = Carbon::parse('01/31/2016');
 
-$response = $transaction->getParentTransactions($from, $to)->toArray();
+$response = $transaction->getParentTransactions($from, $to);
 print_r($response);
