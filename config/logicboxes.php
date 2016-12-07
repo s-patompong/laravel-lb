@@ -8,4 +8,6 @@ return [
 
 	"no_of_record" => env('LB_NO_OF_RECORDS', 100),
 
+	"interface" => env('LB_INTERFACE', null),
+
 ];

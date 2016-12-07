@@ -5,6 +5,8 @@ namespace LaravelLb;
 use LaravelLb\Exceptions\InvalidFormatException;
 use LaravelLb\Exceptions\InvalidRequestTypeException;
 
+use LaravelLb\Request;
+
 use GuzzleHttp;
 use GuzzleHttp\Exception\RequestException;
 
@@ -19,11 +21,14 @@ class LogicBoxes {
 
     public function __construct()
     {
+        $this->interface = null;
+        
         if(function_exists('config'))
         {
             $this->testMode = config('logicboxes.test_mode');
             $this->userId = config('logicboxes.auth_userid');
             $this->apiKey = config('logicboxes.api_key');
+            $this->interface = config('logicboxes.interface');
         }   
     }
 
@@ -171,16 +176,23 @@ class LogicBoxes {
 
         $endPoint = $this->getEndPoint();
 
-        $client = new GuzzleHttp\Client();
+        $client = new Request($endPoint, $this->getRequestType(), $this->interface);
 
-        try {
-            $res = $client->request($this->getRequestType(), $endPoint);
-            $this->response = $res->getBody();
-        } catch (RequestException $e) {
-            $this->response = $e->getResponse()->getBody();
-        }
+        $this->response = $client->get()->getResponse();
         
         return $this;
+    }
+
+    public function setInterface($interface)
+    {
+        $this->interface = $interface;
+
+        return $this;
+    }
+
+    public function getInterface()
+    {
+        return $this->interface;
     }
 
     public function getEndPoint()
