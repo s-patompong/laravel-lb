@@ -176,11 +176,16 @@ class LogicBoxes {
 
         $endPoint = $this->getEndPoint();
 
-        $client = new Request($endPoint, $this->getRequestType(), $this->interface);
+        $client = $this->getClient();
 
         $this->response = $client->get()->getResponse();
         
         return $this;
+    }
+
+    public function getClient()
+    {
+        return new Request($this->getEndPoint(), $this->getRequestType(), $this->interface);
     }
 
     public function setInterface($interface)
