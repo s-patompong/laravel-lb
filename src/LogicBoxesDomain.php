@@ -9,7 +9,7 @@ class LogicBoxesDomain extends LogicBoxes {
 
     private $domainname = "";
 
-	public function __construct($domainname)
+	public function __construct($domainname='')
     {
         parent::__construct();
 
@@ -48,6 +48,13 @@ class LogicBoxesDomain extends LogicBoxes {
 
         $response = $this->get($this->resource, $method, $variables);
         return $this;
+    }
+
+    public function search($parameters)
+    {
+      $method = 'search';
+      $response = $this->get($this->resource, $method, $parameters);
+      return $this;
     }
 
 }

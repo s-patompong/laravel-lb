@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace LaravelLb;
 
@@ -18,18 +18,19 @@ class LogicBoxes {
     private $format = "json";
     private $variables = [];
     private $requestType = "GET";
+    private $appends = [];
 
     public function __construct()
     {
         $this->interface = null;
-        
+
         if(function_exists('config'))
         {
             $this->testMode = config('logicboxes.test_mode');
             $this->userId = config('logicboxes.auth_userid');
             $this->apiKey = config('logicboxes.api_key');
             $this->interface = config('logicboxes.interface');
-        }   
+        }
     }
 
     public function getUserId()
@@ -144,6 +145,17 @@ class LogicBoxes {
         return $this->variables;
     }
 
+    public function setAppends($appends)
+    {
+        $this->appends = $appends;
+        return $this;
+    }
+
+    public function getAppends()
+    {
+        return $this->appends;
+    }
+
     public function call()
     {
         switch($this->getRequestType())
@@ -179,7 +191,7 @@ class LogicBoxes {
         $client = $this->getClient();
 
         $this->response = $client->get()->getResponse();
-        
+
         return $this;
     }
 
@@ -205,7 +217,7 @@ class LogicBoxes {
         $rootPath = $this->getRootPath();
         $credentialString = $this->getCredentialQueryString();
         $queryString = $this->getQueryString();
-        
+
         return "{$rootPath}/{$this->resource}/{$this->method}.{$this->format}?{$credentialString}&{$queryString}";
     }
 
@@ -234,6 +246,11 @@ class LogicBoxes {
         $queryStringArray = [];
         foreach ($this->variables as $key => $value) {
             $queryStringArray[] = "${key}=${value}";
+        }
+        if (!empty($this->appends)) {
+          foreach ($this->appends as $key => $value) {
+            $queryStringArray[] = "${key}=${value}";
+          }
         }
         return implode("&", $queryStringArray);
     }
