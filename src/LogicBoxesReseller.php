@@ -136,6 +136,8 @@ class LogicBoxesReseller extends LogicBoxes {
             "greedy" => "true",
         ], $variables);
 
+        $variables['description'] = urlencode($variables['description']);
+
         $response = $this->post($resource, $method, $variables);
         return $this;
     }
