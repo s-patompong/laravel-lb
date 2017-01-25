@@ -8,7 +8,7 @@ use LaravelLb\LogicBoxesIrtp;
 $userId = getenv('LB_AUTH_USERID');
 $apiKey = getenv('LB_API_KEY');
 
-$irtp = new LogicBoxesIrtp('71848285');
+$irtp = new LogicBoxesIrtp('74435764');
 
 /** No need to set user id if you're using Laravel, it will automatically get the credential from config/logicboxes.php */
 $irtp->setUserId($userId)->setApiKey($apiKey);
