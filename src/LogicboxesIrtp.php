@@ -29,7 +29,7 @@ class LogicBoxesIrtp extends LogicBoxes {
     {
         $method = "details";
 
-        $this->post($this->resource, $method, $this->getOrderIdArray());
+        $this->get($this->resource, $method, $this->getOrderIdArray());
 
         return $this;
     }
@@ -60,7 +60,7 @@ class LogicBoxesIrtp extends LogicBoxes {
         $method = "cancel";
 
         $variables = $this->getOrderIdArray();
-        
+
         $variables['reason'] = $reason;
 
         $this->post($this->resource, $method, $variables);
@@ -70,7 +70,7 @@ class LogicBoxesIrtp extends LogicBoxes {
 
     /**
      * Get order id array
-     * @return Array 
+     * @return Array
      */
     private function getOrderIdArray()
     {
