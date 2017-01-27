@@ -18,6 +18,8 @@ $variables = [
 	"debit-note-date" => time(),
 	"transaction-key" => generateRandomString(15),
 	"update-total-receipt" => true,
+	"conversion-rate" => 1,
+	"accounting-amount" => 0.15
 ];
 
 $reseller = new LogicBoxesReseller($resellerId, $resellerUserName, $resellerPassword);

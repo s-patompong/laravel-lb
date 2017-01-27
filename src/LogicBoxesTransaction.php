@@ -31,6 +31,12 @@ class LogicBoxesTransaction extends LogicBoxes {
 	public $customerResource;
 
     /**
+     * Resource for greedy transaction
+     * @var String
+     */
+    public $resellerGreedyResource;
+
+    /**
      * No. of record that will be fetched per api call
      * @var Integer
      */
@@ -41,12 +47,12 @@ class LogicBoxesTransaction extends LogicBoxes {
         parent::__construct();
 
         $this->baseResource = "billing";
-        
+
         $this->parentResource = "{$this->baseResource}/my-transactions";
 
         $this->resellerResource = "{$this->baseResource}/reseller-transactions";
 
-    	$this->customerResource = "{$this->baseResource}/customer-transactions";
+    	  $this->customerResource = "{$this->baseResource}/customer-transactions";
 
         $this->noOfRecord = $this->getNoOfRecord($noOfRecord);
     }
@@ -87,7 +93,7 @@ class LogicBoxesTransaction extends LogicBoxes {
     /**
      * Get only the transaction from transaction response
      * @param  Array $transactions array of transaction response
-     * @return Array               
+     * @return Array
      */
     private function getOnlyTransactionFromResponse($transactions)
     {
@@ -158,5 +164,14 @@ class LogicBoxesTransaction extends LogicBoxes {
 
         return 100;
     }
-    
+
+    public function getResellerGreedyTransactions($reseller_id)
+    {
+        $variables = [
+          'reseller-id' => $reseller_id
+        ];
+        $transactions = $this->get($this->baseResource, 'reseller-greedy-transactions', $variables)->toArray();
+        return $transactions;
+    }
+
 }
