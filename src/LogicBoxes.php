@@ -19,6 +19,7 @@ class LogicBoxes {
     private $variables = [];
     private $requestType = "GET";
     private $appends = [];
+    private $request = '';
 
     public function __construct()
     {
@@ -198,6 +199,8 @@ class LogicBoxes {
 
         $endPoint = $this->getEndPoint();
 
+        $this->request = $endPoint;
+
         $client = $this->getClient();
 
         $this->response = $client->get()->getResponse();
@@ -263,6 +266,11 @@ class LogicBoxes {
           }
         }
         return implode("&", $queryStringArray);
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
     }
 
 }
