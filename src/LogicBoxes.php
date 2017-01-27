@@ -27,8 +27,18 @@ class LogicBoxes {
         if(function_exists('config'))
         {
             $this->testMode = config('logicboxes.test_mode');
-            $this->userId = config('logicboxes.auth_userid');
-            $this->apiKey = config('logicboxes.api_key');
+
+            if($this->testMode)
+            {
+                $this->userId = config('logicboxes.credentials.test.auth_userid');
+                $this->apiKey = config('logicboxes.credentials.test.api_key');
+            }
+            else
+            {
+                $this->userId = config('logicboxes.credentials.live.auth_userid');
+                $this->apiKey = config('logicboxes.credentials.live.api_key');
+            }
+
             $this->interface = config('logicboxes.interface');
         }
     }
