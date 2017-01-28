@@ -159,4 +159,57 @@ class LogicBoxesReseller extends LogicBoxes {
         return $this;
     }
 
+    /**
+     * Signup reseller
+     * @param  Array $variable variable
+     * @return LogicBoxesReseller
+     */
+    public function signup($variables)
+    {
+        $method = 'signup';
+
+        foreach ($variables as $key => $value)
+        {
+            $variables[$key] = urlencode($value);    
+        }
+
+        $response = $this->post($this->resource, $method, $variables);
+        return $this;
+    }
+
+    /**
+     * Search for Reseller
+     * @param  Array $variables   Variables
+     * @param  Integer $noOfRecords Number of record per page, must larger than 10
+     * @param  Integer $pageNo      Page number
+     * @return LogicBoxesReseller              
+     * http://manage.netearthone.com/kb/answer/1133
+     */
+    public function searchReseller($variables, $noOfRecords, $pageNo)
+    {
+        $method = 'search';
+
+        $variables['no-of-records'] = $noOfRecords;
+
+        $variables['page-no'] = $pageNo;
+
+        $this->get($this->resource, $method, $variables);
+
+        return $this;
+    }
+
+    /**
+     * Search reseller by email
+     * @param  String $email email
+     * @return LogicboxesReseller        
+     */
+    public function searchResellerByEmail($email)
+    {
+        $variables = [
+            'username' => $email,
+        ];
+
+        return $this->searchReseller($variables, 10, 1);
+    }
+
 }
