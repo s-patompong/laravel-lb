@@ -61,7 +61,7 @@ class LogicBoxesIrtp extends LogicBoxes {
 
         $variables = $this->getOrderIdArray();
 
-        $variables['reason'] = $reason;
+        $variables['reason'] = urlencode($reason);
 
         $this->post($this->resource, $method, $variables);
 
