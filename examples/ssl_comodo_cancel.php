@@ -5,11 +5,11 @@ require __DIR__.'/autoload.php';
 use LaravelLb\LogicBoxesComodo;
 
 // Setup user id and api key
-$userId = getenv('LB_AUTH_USERID');
-$apiKey = getenv('LB_API_KEY');
-$testMode = getenv('LB_TEST_MODE') == 'true'? true: false;
+$userId = getenv('LB_LIVE_AUTH_USERID');
+$apiKey = getenv('LB_LIVE_API_KEY');
+$testMode = false;
 
-$orderId = "71946515";
+$orderId = "75189334";
 
 $comodo = new LogicBoxesComodo();
 
