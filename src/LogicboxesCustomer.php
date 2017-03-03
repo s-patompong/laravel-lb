@@ -13,7 +13,7 @@ class LogicBoxesCustomer extends LogicBoxes {
     public function __construct()
     {
         parent::__construct();
-        
+
     	$this->resource = "customers";
     }
 
@@ -28,7 +28,7 @@ class LogicBoxesCustomer extends LogicBoxes {
     	$this->post($this->resource, $method, $variables);
     	return $this;
     }
-    
+
     /**
      * Sign up the new customer
      * @return LogicBoxesCustomer
@@ -39,6 +39,15 @@ class LogicBoxesCustomer extends LogicBoxes {
         $method = "details-by-id";
         $this->get($this->resource, $method, [
             'customer-id' => $customerId
+        ]);
+        return $this;
+    }
+
+    public function detailsByUsername($username)
+    {
+        $method = "details";
+        $this->get($this->resource, $method, [
+            'username' => $username
         ]);
         return $this;
     }

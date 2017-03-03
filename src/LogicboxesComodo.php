@@ -69,7 +69,7 @@ class LogicBoxesComodo extends LogicBoxes {
         $method = "enroll";
         $variables = [
             "order-id" => $orderId,
-            "csr" => $csr,
+            "csr" => rawurlencode($csr),
             "verification-email" => $verificationEmail,
         ];
 

@@ -28,7 +28,7 @@ class LogicBoxesTransaction extends LogicBoxes {
      * Resource for customer transactions
      * @var String
      */
-	public $customerResource;
+    public $customerResource;
 
     /**
      * Resource for greedy transaction
@@ -52,7 +52,11 @@ class LogicBoxesTransaction extends LogicBoxes {
 
         $this->resellerResource = "{$this->baseResource}/reseller-transactions";
 
-    	  $this->customerResource = "{$this->baseResource}/customer-transactions";
+        $this->customerResource = "{$this->baseResource}/customer-transactions";
+
+        $this->resellerArchivedResource = "{$this->baseResource}/reseller-archived-transactions";
+
+        $this->customerArchivedResource = "{$this->baseResource}/customer-archived-transactions";
 
         $this->noOfRecord = $this->getNoOfRecord($noOfRecord);
     }
@@ -69,7 +73,7 @@ class LogicBoxesTransaction extends LogicBoxes {
     }
 
     /**
-     * Get parent transaction
+     * Get reseller transaction
      * @param  Carbon $from From date
      * @param  Carbon $to   To date
      * @return LogicBoxesTransaction
@@ -77,6 +81,18 @@ class LogicBoxesTransaction extends LogicBoxes {
     public function getResellerTransactions($from, $to)
     {
         return $this->getTransactions($this->resellerResource, $from, $to);
+    }
+
+    /**
+     * Get reseller archived transaction
+     * http://manage.netearthone.com/kb/answer/1617
+     * @param  Carbon $from From date
+     * @param  Carbon $to   To date
+     * @return LogicBoxesTransaction
+     */
+    public function getResellerArchivedTransactions($from, $to)
+    {
+        return $this->getTransactions($this->resellerArchivedResource, $from, $to);
     }
 
     /**
@@ -88,6 +104,18 @@ class LogicBoxesTransaction extends LogicBoxes {
     public function getCustomerTransactions($from, $to)
     {
         return $this->getTransactions($this->customerResource, $from, $to);
+    }
+
+    /**
+     * Get customer archived transaction
+     * http://manage.netearthone.com/kb/answer/965
+     * @param  Carbon $from From date
+     * @param  Carbon $to   To date
+     * @return LogicBoxesTransaction
+     */
+    public function getCustomerArchivedTransactions($from, $to)
+    {
+        return $this->getTransactions($this->customerArchivedResource, $from, $to);
     }
 
     /**
@@ -168,7 +196,7 @@ class LogicBoxesTransaction extends LogicBoxes {
     public function getResellerGreedyTransactions($reseller_id)
     {
         $variables = [
-          'reseller-id' => $reseller_id
+            'reseller-id' => $reseller_id,
         ];
         $transactions = $this->get($this->baseResource, 'reseller-greedy-transactions', $variables)->toArray();
         return $transactions;
