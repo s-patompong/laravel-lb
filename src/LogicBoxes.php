@@ -158,7 +158,19 @@ class LogicBoxes {
 
     public function setAppends($appends)
     {
-        $this->appends = $appends;
+        $this->appends = [];
+
+        foreach ($appends as $key => $value) {
+            if (!is_array($value))
+            {
+                $this->appends[] = [$key => $value];
+            }
+            else
+            {
+                $this->appends[$key] = $value;
+            }
+        }
+
         return $this;
     }
 
@@ -200,6 +212,8 @@ class LogicBoxes {
         $endPoint = $this->getEndPoint();
 
         $this->request = $endPoint;
+        print_r($endPoint);
+        return;
 
         $client = $this->getClient();
 
@@ -261,10 +275,13 @@ class LogicBoxes {
             $queryStringArray[] = "${key}=${value}";
         }
         if (!empty($this->appends)) {
-          foreach ($this->appends as $key => $value) {
-            $queryStringArray[] = "${key}=${value}";
+          foreach ($this->appends as $appendKey => $append) {
+              foreach ($append as $key => $value) {
+                $queryStringArray[] = "${appendKey}=${value}";
+              }
           }
         }
+
         return implode("&", $queryStringArray);
     }
 
