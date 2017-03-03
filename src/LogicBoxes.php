@@ -212,8 +212,6 @@ class LogicBoxes {
         $endPoint = $this->getEndPoint();
 
         $this->request = $endPoint;
-        print_r($endPoint);
-        return;
 
         $client = $this->getClient();
 
