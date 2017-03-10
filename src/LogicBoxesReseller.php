@@ -66,7 +66,7 @@ class LogicBoxesReseller extends LogicBoxes {
             "passwd" => urlencode($this->password),
         ];
 
-        $response = $this->get($this->resource, $method, $variables)->toArray();        
+        $response = $this->get($this->resource, $method, $variables)->toArray();
         return isset($response['resellerid']) ? $response['resellerid'] : null;
     }
 
@@ -84,6 +84,26 @@ class LogicBoxesReseller extends LogicBoxes {
             "reseller-id" => $this->resellerId,
         ], $variables);
 
+        $response = $this->post($resource, $method, $variables);
+        return $this;
+    }
+
+    /**
+     * Adds a Debit Note against the specified Sub-Reseller's Account.
+     * http://manage.netearthone.com/kb/answer/1167
+     *
+     * @param LogicBoxesReseller
+     */
+    public function addFunds($variables)
+    {
+        $resource = "billing";
+        $method = 'add-reseller-fund';
+        $variables = array_merge([
+            "reseller-id" => $this->resellerId,
+        ], $variables);
+
+        $variables['description'] = urlencode($variables['description']);
+        
         $response = $this->post($resource, $method, $variables);
         return $this;
     }
@@ -170,7 +190,7 @@ class LogicBoxesReseller extends LogicBoxes {
 
         foreach ($variables as $key => $value)
         {
-            $variables[$key] = urlencode($value);    
+            $variables[$key] = urlencode($value);
         }
 
         $response = $this->post($this->resource, $method, $variables);
@@ -182,7 +202,7 @@ class LogicBoxesReseller extends LogicBoxes {
      * @param  Array $variables   Variables
      * @param  Integer $noOfRecords Number of record per page, must larger than 10
      * @param  Integer $pageNo      Page number
-     * @return LogicBoxesReseller              
+     * @return LogicBoxesReseller
      * http://manage.netearthone.com/kb/answer/1133
      */
     public function searchReseller($variables, $noOfRecords, $pageNo)
@@ -201,7 +221,7 @@ class LogicBoxesReseller extends LogicBoxes {
     /**
      * Search reseller by email
      * @param  String $email email
-     * @return LogicboxesReseller        
+     * @return LogicboxesReseller
      */
     public function searchResellerByEmail($email)
     {
