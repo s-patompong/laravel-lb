@@ -18,7 +18,7 @@ class LogicBoxesActions extends LogicBoxes {
      * http://manage.logicboxes.com/kb/answer/908
      * @return LogicboxesCommon 
      */
-    public function searchCurrentActions($variables = [], $pageNo = 1, $noOfRecords = 100)
+    public function searchCurrentActions($variables = [], $pageNo = 1, $noOfRecords = 500)
     {
         $method = 'search-current';
 
@@ -37,7 +37,7 @@ class LogicBoxesActions extends LogicBoxes {
      * http://manage.logicboxes.com/kb/answer/909
      * @return LogicboxesCommon
      */
-    public function searchArchivedActions($variables = [], $pageNo = 1, $noOfRecords = 100)
+    public function searchArchivedActions($variables = [], $pageNo = 1, $noOfRecords = 500)
     {
         $method = 'search-archived';
 
