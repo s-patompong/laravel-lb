@@ -232,4 +232,21 @@ class LogicBoxesReseller extends LogicBoxes {
         return $this->searchReseller($variables, 10, 1);
     }
 
+    /**
+     * Get reseller API key
+     * @param  String $email email
+     * @return LogicboxesReseller
+     */
+    public function getResellerApiKey()
+    {
+        $resource = "resellers/subreseller";
+        $method = 'api-key';
+
+        $variables = [
+            'reseller-id' => $this->resellerId,
+        ];
+
+        return $this->get($resource, $method, $variables);
+    }
+
 }
