@@ -4,7 +4,7 @@ namespace LaravelLb;
 
 use LaravelLb\LogicBoxes;
 
-class LogicBoxesActions extends LogicBoxes {
+class LogicBoxesAction extends LogicBoxes {
 
     public $resource;
 
