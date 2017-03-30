@@ -6,6 +6,8 @@ use LaravelLb\LogicBoxes;
 
 class LogicBoxesActions extends LogicBoxes {
 
+    public $resource;
+
     public function __construct()
     {
         parent::__construct();
