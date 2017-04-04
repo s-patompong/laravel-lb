@@ -50,6 +50,24 @@ class LogicBoxesDomain extends LogicBoxes {
         return $this;
     }
 
+    /**
+     * Getting Details of the Domain Registration Order using Order Id .
+     * http://manage.netearthone.com/kb/answer/770
+     *
+     * @param LogicBoxesReseller
+     */
+    public function detailsByOrderId($orderId)
+    {
+        $method = 'details';
+        $variables = [
+            "order-id" => $orderId,
+            "options" => "All"
+        ];
+
+        $response = $this->get($this->resource, $method, $variables);
+        return $this;
+    }
+
     public function search($parameters)
     {
       $method = 'search';
