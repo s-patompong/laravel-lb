@@ -1,7 +1,7 @@
 <?php
 
 return [
-	
+
 	"test_mode" => env('LB_TEST_MODE', true),
 
 	"credentials" => [
@@ -18,5 +18,7 @@ return [
 	"no_of_record" => env('LB_NO_OF_RECORDS', 100),
 
 	"interface" => env('LB_INTERFACE', null),
+
+	'throw_exception' => false,
 
 ];

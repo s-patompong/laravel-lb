@@ -4,6 +4,7 @@ namespace LaravelLb;
 
 use LaravelLb\Exceptions\InvalidFormatException;
 use LaravelLb\Exceptions\InvalidRequestTypeException;
+use LaravelLb\Exceptions\TimeoutResponseException;
 
 use LaravelLb\Request;
 
@@ -20,6 +21,7 @@ class LogicBoxes {
     private $requestType = "GET";
     private $appends = [];
     private $request = '';
+    private $throwException = false;
 
     public function __construct()
     {
@@ -41,6 +43,8 @@ class LogicBoxes {
             }
 
             $this->interface = config('logicboxes.interface');
+
+            $this->throwException = config('logicboxes.throw_exception');
         }
     }
 
@@ -217,6 +221,18 @@ class LogicBoxes {
 
         $this->response = $client->get()->getResponse();
 
+        if ($this->throwException) {
+          if (strpos($this->response, '504 Gateway Time-out') !== false) {
+            throw new TimeoutResponseException($this->response, 504);
+          }
+
+          $response = json_decode($this->response);
+
+          if (isset($response->status)) {
+            throw new ErrorResponseException($response->message, 3);
+          }
+        }
+
         return $this;
     }
 
@@ -288,4 +304,13 @@ class LogicBoxes {
         return $this->request;
     }
 
+    public function enabledThrowException()
+    {
+      $this->throwException = true;
+    }
+
+    public function unabledThrowException()
+    {
+      $this->throwException = false;
+    }
 }
