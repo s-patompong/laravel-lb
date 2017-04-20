@@ -313,6 +313,7 @@ class LogicBoxes {
     {
       $this->throwException = false;
     }
+    
     /**
      * Encode the variables
      * @param  array $variables 
