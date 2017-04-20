@@ -14,9 +14,9 @@ $reseller = new LogicBoxesReseller('');
 $reseller->setTestMode(false)->setUserId($userId)->setApiKey($apiKey);
 
 $variables = [
-	'username' => 'sales@mddhosting.com',
+	'username' => 'test45_reseller@netearth.net',
     'passwd' => 'TQbAvJ6B7a',
-    'name' => 'Michael Denney',
+    'name' => 'Michael Jordan',
     'company' => 'MDDHosting LLC',
     'address-line-1' => '5239 E State Road 144',
     // 'address-line-2' => '',
@@ -38,3 +38,5 @@ $variables = [
 ];
 
 $response = $reseller->signup($variables);
+
+print_r($response->toArray());

@@ -188,12 +188,10 @@ class LogicBoxesReseller extends LogicBoxes {
     {
         $method = 'signup';
 
-        foreach ($variables as $key => $value)
-        {
-            $variables[$key] = urlencode($value);
-        }
+        $variables = $this->encodeVariables($variables);
 
         $response = $this->post($this->resource, $method, $variables);
+        
         return $this;
     }
 

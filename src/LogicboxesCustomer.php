@@ -25,7 +25,11 @@ class LogicBoxesCustomer extends LogicBoxes {
     public function signUp($variables)
     {
     	$method = "signup";
+
+        $variables = $this->encodeVariables($variables);
+
     	$this->post($this->resource, $method, $variables);
+        
     	return $this;
     }
 

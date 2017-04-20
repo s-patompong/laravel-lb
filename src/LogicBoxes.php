@@ -313,4 +313,19 @@ class LogicBoxes {
     {
       $this->throwException = false;
     }
+    /**
+     * Encode the variables
+     * @param  array $variables 
+     * @return array            
+     */
+    public function encodeVariables($variables)
+    {
+        foreach ($variables as $key => $value)
+        {
+            $variables[$key] = urlencode($value);
+        }
+
+        return $variables;
+    }
+
 }
