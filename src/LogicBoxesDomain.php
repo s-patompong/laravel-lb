@@ -4,9 +4,8 @@ namespace LaravelLb;
 
 use LaravelLb\LogicBoxes;
 
-class LogicBoxesDomain extends LogicBoxes {
-
-
+class LogicBoxesDomain extends LogicBoxes
+{
     private $domainname = "";
 
 	public function __construct($domainname='')
@@ -73,6 +72,23 @@ class LogicBoxesDomain extends LogicBoxes {
       $method = 'search';
       $response = $this->get($this->resource, $method, $parameters);
       return $this;
+    }
+
+    public function modifyNs($orderId, $nameServers)
+    {
+        $method = 'modify-ns';
+
+        $parameters = [
+            'order-id' => $orderId,
+        ];
+
+        foreach ($nameServers as $nameServer) {
+            $this->setAppends(['ns' => $nameServer]);
+        }
+
+        $this->post($this->resource, $method, $parameters);
+
+        return $this;
     }
 
 }

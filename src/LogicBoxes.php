@@ -46,6 +46,8 @@ class LogicBoxes {
 
             $this->throwException = config('logicboxes.throw_exception');
         }
+
+        $this->appends = [];
     }
 
     public function getUserId()
@@ -162,8 +164,6 @@ class LogicBoxes {
 
     public function setAppends($appends)
     {
-        $this->appends = [];
-
         foreach ($appends as $key => $value) {
             if (!is_array($value))
             {
@@ -291,7 +291,7 @@ class LogicBoxes {
         if (!empty($this->appends)) {
           foreach ($this->appends as $appendKey => $append) {
               foreach ($append as $key => $value) {
-                $queryStringArray[] = "${appendKey}=${value}";
+                $queryStringArray[] = "${key}=${value}";
               }
           }
         }
