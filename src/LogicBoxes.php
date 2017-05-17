@@ -291,7 +291,7 @@ class LogicBoxes {
         if (!empty($this->appends)) {
           foreach ($this->appends as $appendKey => $append) {
               foreach ($append as $key => $value) {
-                $queryStringArray[] = "${key}=${value}";
+                $queryStringArray[] = "${appendKey}=${value}";
               }
           }
         }

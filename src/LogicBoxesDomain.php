@@ -82,9 +82,7 @@ class LogicBoxesDomain extends LogicBoxes
             'order-id' => $orderId,
         ];
 
-        foreach ($nameServers as $nameServer) {
-            $this->setAppends(['ns' => $nameServer]);
-        }
+        $this->setAppends(['ns' => $nameServers]);
 
         $this->post($this->resource, $method, $parameters);
 
