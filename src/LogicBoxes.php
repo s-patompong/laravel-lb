@@ -329,4 +329,21 @@ class LogicBoxes {
         return $variables;
     }
 
+    /**
+     * Check if the credential is correct and login-able
+     */
+    public function canLogin()
+    {
+        $this->get('resellers', 'generate-token', ['ip' => '1.1.1.1']);
+        $response = $this->toArray();
+
+        $invalidCredentialMessage = "Invalid credentials, or your User account maybe Inactive or Suspended";
+
+        if(isset($response['message']) && ($response['message'] == $invalidCredentialMessage)) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
