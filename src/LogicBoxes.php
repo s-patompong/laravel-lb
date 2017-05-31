@@ -357,6 +357,9 @@ class LogicBoxes {
     {
         $response = $this->toArray();
 
+        // Return true immediately if the response is null
+        if($response == null) return true;
+
         // Return false if the response is string and we allow stringAble
         if($stringAble && gettype($response) == 'string') return false;
 
