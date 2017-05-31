@@ -346,4 +346,30 @@ class LogicBoxes {
         return true;
     }
 
+    /**
+     * Check if the response is an error
+     * @param  boolean $exceptionalMessages The message to be except as an error
+     * @param  boolean $stringAble          Some method like get reseller API key got a return type as string
+     *                                      so we need to allow that to happen
+     * @return boolean             
+     */
+    public function isErrorResponse($exceptionalMessages = [], $stringAble = true)
+    {
+        $response = $this->toArray();
+
+        // Return false if the response is string and we allow stringAble
+        if($stringAble && gettype($response) == 'string') return false;
+
+        // If the response doesn't contain status field or it contain but the status field
+        // is not ERROR, we don't see it as an error
+        if(!isset($response['status']) || ($response['status'] != 'ERROR')) return false;
+
+        // No need to validate if user not set any possible messages
+        if(!count($exceptionalMessages)) return true;
+
+        $message = $response['message'] ?? '';
+
+        return !in_array($message, $exceptionalMessages);
+    }
+
 }
