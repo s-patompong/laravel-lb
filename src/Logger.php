@@ -66,7 +66,7 @@ class Logger
 
         // If folder doesn't exit, give the exception
         if(!file_exists($this->path)) {
-            throw new Exception("Path {$this->path} doesn't exist");
+            mkdir($this->path);
         }
 
         // Open a file
