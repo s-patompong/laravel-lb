@@ -4,129 +4,140 @@ namespace LaravelLb;
 
 Class Request
 {
-	/**
-	 * Interface for out going request
-	 * @var String
-	 */
-	protected $interface;
 
-	/**
-	 * Method
-	 * @var String
-	 */
-	protected $method;
+    /**
+     * Interface for out going request
+     * @var String
+     */
+    protected $interface;
 
-	/**
-	 * End point
-	 * @var String
-	 */
-	protected $endPoint;
+    /**
+     * Method
+     * @var String
+     */
+    protected $method;
 
-	/**
-	 * The result of the request
-	 * @var String
-	 */
-	protected $response;
+    /**
+     * End point
+     * @var String
+     */
+    protected $endPoint;
 
-	public function __construct($endPoint, $method = 'GET', $interface = null)
-	{
-		$this->interface = $interface;
+    /**
+     * The result of the request
+     * @var String
+     */
+    protected $response;
 
-		$this->method = $method;
+    public function __construct($endPoint, $method = 'GET', $interface = null)
+    {
+        $this->interface = $interface;
 
-		$this->endPoint = $endPoint;
-	}
+        $this->method = $method;
 
-	/**
-	 * Set the interface
-	 * @param String $interface interface to use to call LB
-	 * @return Request
-	 */
-	public function setInterface($interface)
-	{
-		$this->interface = $interface;
+        $this->endPoint = $endPoint;
+    }
 
-		return $this;
-	}
+    /**
+     * Set the interface
+     * @param String $interface interface to use to call LB
+     * @return Request
+     */
+    public function setInterface($interface)
+    {
+        $this->interface = $interface;
 
-	/**
-	 * Get the interface
-	 * @return String interface
-	 */
-	public function getInterface()
-	{
-		return $this->getInterface;
-	}
+        return $this;
+    }
 
-	public function getMethod()
-	{
-		return $this->method;
-	}
+    /**
+     * Get the interface
+     * @return String interface
+     */
+    public function getInterface()
+    {
+        return $this->getInterface;
+    }
 
-	/**
-	 * Set the method
-	 * @param Request
-	 */
-	public function setMethod($method)
-	{
-		$this->method = $method;
+    public function getMethod()
+    {
+        return $this->method;
+    }
 
-		return $this;
-	}
+    /**
+     * Set the method
+     * @param Request
+     * @return $this
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
 
-	/**
-	 * Fire the request
-	 * @return Request
-	 */
-	public function get()
-	{
-		$ch = curl_init();
+        return $this;
+    }
 
-		curl_setopt($ch, CURLOPT_URL, $this->endPoint);
+    /**
+     * Fire the request
+     * @return Request
+     */
+    public function get()
+    {
+        $ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $this->endPoint);
 
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->method);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		if($this->interface)
-		{
-			curl_setopt($ch, CURLOPT_INTERFACE, $this->interface);
-		}
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->method);
 
-		$result = curl_exec($ch);
+        if ($this->interface) {
+            curl_setopt($ch, CURLOPT_INTERFACE, $this->interface);
+        }
 
-		curl_close($ch);
+        $result = curl_exec($ch);
 
-		$this->response = $result;
+        curl_close($ch);
 
-		return $this;
-	}
+        $this->response = $result;
 
-	/**
-	 * Cast the result to array
-	 * @return Array
-	 */
-	public function toArray()
-	{
-		return json_decode($this->response, true);
-	}
+        return $this;
+    }
 
-	/**
-	 * Cast the result to json
-	 * @return [type] [description]
-	 */
-	public function toJson()
-	{
-		return json_decode($this->response);
-	}
+    /**
+     * Cast the result to array
+     * @return Array
+     */
+    public function toArray()
+    {
+        return json_decode($this->response, true);
+    }
 
-	/**
-	 * Get the response
-	 * @return String
-	 */
-	public function getResponse()
-	{
-		return $this->response;
-	}
+    /**
+     * Cast the result to json
+     * @return [type] [description]
+     */
+    public function toJson()
+    {
+        return json_decode($this->response);
+    }
+
+    /**
+     * Get the response
+     * @return String
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * Get endpoint request
+     *
+     * @return String
+     */
+    public function getRequest()
+    {
+        return $this->endPoint;
+    }
 
 }

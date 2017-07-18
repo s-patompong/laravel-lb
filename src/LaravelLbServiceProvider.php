@@ -25,6 +25,8 @@ class LaravelLbServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->app->bind('lb_logger', function ($app) {
+            return new Logger();
+        });
     }
 }

@@ -23,28 +23,33 @@ class LogicBoxes {
     private $request = '';
     private $throwException = false;
 
+    /**
+     * @var Logger
+     */
+    private $logger;
+
     public function __construct()
     {
         $this->interface = null;
 
-        if(function_exists('config'))
-        {
+        if(function_exists('config')) {
+            // Test mode toggle
             $this->testMode = config('logicboxes.test_mode');
 
-            if($this->testMode)
-            {
-                $this->userId = config('logicboxes.credentials.test.auth_userid');
-                $this->apiKey = config('logicboxes.credentials.test.api_key');
-            }
-            else
-            {
-                $this->userId = config('logicboxes.credentials.live.auth_userid');
-                $this->apiKey = config('logicboxes.credentials.live.api_key');
-            }
+            // Credential setup
+            $testKey = $this->testMode? 'test': 'live';
+            $this->userId = config("logicboxes.credentials.{$testKey}.auth_userid");
+            $this->apiKey = config("logicboxes.credentials.{$testKey}.api_key");
 
+            // Interface setup
             $this->interface = config('logicboxes.interface');
 
+            // Whether to throw exception when got error from LB
             $this->throwException = config('logicboxes.throw_exception');
+        }
+
+        if(function_exists('app')) {
+            $this->logger = app('lb_logger');
         }
 
         $this->appends = [];
@@ -221,6 +226,8 @@ class LogicBoxes {
 
         $this->response = $client->get()->getResponse();
 
+        $this->logger->log($client);
+
         if ($this->throwException) {
           if (strpos($this->response, '504 Gateway Time-out') !== false) {
             throw new TimeoutResponseException($this->response, 504);
@@ -373,6 +380,11 @@ class LogicBoxes {
         $message = $response['message'] ?? '';
 
         return !in_array($message, $exceptionalMessages);
+    }
+
+    public function setLogger(Logger $logger)
+    {
+        $this->logger = $logger;
     }
 
 }
