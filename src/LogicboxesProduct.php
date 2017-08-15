@@ -29,12 +29,13 @@ class LogicBoxesProduct extends LogicBoxes {
      * @param $customerIdTo
      * @return LogicBoxes
      */
-    public function move($domainName, $customerIdFrom, $customerIdTo)
+    public function move($domainName, $customerIdFrom, $customerIdTo, $defaultContact = 'oldcontact')
     {
         $variables = [
             'domain-name' => $domainName,
             'existing-customer-id' => $customerIdFrom,
             'new-customer-id' => $customerIdTo,
+            'default-contact' => $defaultContact,
         ];
         $method = 'move';
 
