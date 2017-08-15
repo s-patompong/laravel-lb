@@ -2,14 +2,10 @@
 
 namespace LaravelLb;
 
+use LaravelLb\Exceptions\ErrorResponseException;
 use LaravelLb\Exceptions\InvalidFormatException;
 use LaravelLb\Exceptions\InvalidRequestTypeException;
 use LaravelLb\Exceptions\TimeoutResponseException;
-
-use LaravelLb\Request;
-
-use GuzzleHttp;
-use GuzzleHttp\Exception\RequestException;
 
 class LogicBoxes {
 
@@ -27,6 +23,14 @@ class LogicBoxes {
      * @var Logger
      */
     private $logger;
+
+    private $resource;
+
+    private $method;
+
+    private $response;
+
+    private $interface;
 
     public function __construct()
     {
@@ -196,6 +200,8 @@ class LogicBoxes {
                 return $this->get($this->resource, $this->method, $this->variables, $this->format);
             case "POST":
                 return $this->post($this->resource, $this->method, $this->variables, $this->format);
+            default:
+                return null;
         }
     }
 
@@ -355,10 +361,10 @@ class LogicBoxes {
 
     /**
      * Check if the response is an error
-     * @param  boolean $exceptionalMessages The message to be except as an error
-     * @param  boolean $stringAble          Some method like get reseller API key got a return type as string
+     * @param array|bool $exceptionalMessages The message to be except as an error
+     * @param  boolean $stringAble Some method like get reseller API key got a return type as string
      *                                      so we need to allow that to happen
-     * @return boolean             
+     * @return bool
      */
     public function isErrorResponse($exceptionalMessages = [], $stringAble = true)
     {
