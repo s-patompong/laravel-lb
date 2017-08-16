@@ -86,7 +86,7 @@ class Logger
 
         // If it's the first time after file has been created, we set it's permission to 0666 so everyone can write it
         if(!$fileExists) {
-            chmod($file, 0666);
+            chmod($path, 0666);
         }
     }
 
