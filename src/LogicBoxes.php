@@ -393,4 +393,9 @@ class LogicBoxes {
         $this->logger = $logger;
     }
 
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
 }
