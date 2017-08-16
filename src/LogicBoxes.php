@@ -9,28 +9,28 @@ use LaravelLb\Exceptions\TimeoutResponseException;
 
 class LogicBoxes {
 
-    private $testMode = true;
-    private $userId = "";
-    private $apiKey = "";
-    private $format = "json";
-    private $variables = [];
-    private $requestType = "GET";
-    private $appends = [];
-    private $request = '';
-    private $throwException = false;
+    protected $testMode = true;
+    protected $userId = "";
+    protected $apiKey = "";
+    protected $format = "json";
+    protected $variables = [];
+    protected $requestType = "GET";
+    protected $appends = [];
+    protected $request = '';
+    protected $throwException = false;
 
     /**
      * @var Logger
      */
-    private $logger;
+    protected $logger;
 
-    private $resource;
+    protected $resource;
 
-    private $method;
+    protected $method;
 
-    private $response;
+    protected $response;
 
-    private $interface;
+    protected $interface;
 
     public function __construct()
     {
