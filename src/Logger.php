@@ -69,11 +69,25 @@ class Logger
             mkdir($this->path);
         }
 
+        // Concat the path into a variable
+        $path = $this->path . '/' . $this->getLogFileName();
+
+        // Check if file has been created before
+        $fileExists = file_exists($path);
+
         // Open a file
-        $file = fopen($this->path . '/' . $this->getLogFileName(), 'a+');
+        $file = fopen($path, 'a+');
 
         // Log file content
         $this->logContent($file, $request);
+
+        // Close and change file mode
+        fclose($file);
+
+        // If it's the first time after file has been created, we set it's permission to 0666 so everyone can write it
+        if(!$fileExists) {
+            chmod($file, 0666);
+        }
     }
 
     /**
