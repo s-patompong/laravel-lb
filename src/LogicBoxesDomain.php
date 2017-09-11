@@ -89,4 +89,22 @@ class LogicBoxesDomain extends LogicBoxes
         return $this;
     }
 
+    /**
+     * Modify domain contact
+     *
+     * Reference: https://manage.logicboxes.com/kb/answer/777
+     *
+     * @param array $parameters
+     *
+     * @return $this
+     */
+    public function modifyContact(array $parameters)
+    {
+        $method = 'modify-contact';
+
+        $this->post($this->resource, $method, $parameters);
+
+        return $this;
+    }
+
 }
