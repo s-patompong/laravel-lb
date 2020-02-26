@@ -28,8 +28,6 @@ class LogicBoxesDomain extends LogicBoxes
         return $this;
     }
 
-
-
     /**
      * Getting Details of the Domain Registration Order using Domain Name .
      * http://manage.netearthone.com/kb/answer/1755
