@@ -23,7 +23,7 @@ class LogicboxesOrder extends LogicBoxes
 
         $variables = [
             'order-id' => $this->orderId,
-            'reason' => $reason,
+            'reason' => urlencode($reason),
         ];
 
         $this->post($this->resource, $method, $variables);
