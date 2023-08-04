@@ -299,12 +299,24 @@ class LogicBoxes {
     {
         $queryStringArray = [];
         foreach ($this->variables as $key => $value) {
+            if ($value === true) {
+                $value = 'true';
+            } else if ($value === false) {
+                $value = 'false';
+            }
+
             $queryStringArray[] = "${key}=${value}";
         }
         if (!empty($this->appends)) {
           foreach ($this->appends as $appendKey => $append) {
               foreach ($append as $key => $value) {
-                $queryStringArray[] = "${appendKey}=${value}";
+                  if ($value === true) {
+                      $value = 'true';
+                  } else if ($value === false) {
+                      $value = 'false';
+                  }
+
+                  $queryStringArray[] = "${appendKey}=${value}";
               }
           }
         }
